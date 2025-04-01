@@ -47,19 +47,24 @@ jobs:
           toolchain: stable
           target: ${{ matrix.target }}
           override: true
-      - name: Build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --target ${{ matrix.target }}
       - name: Run tests
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: --target ${{ matrix.target }}
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --target ${{ matrix.target }}
+      # release
+      - name: Package
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          tar -czvf at-${{ matrix.target }}.tar.gz target/${{ matrix.target }}/debug/at
       - name: Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: target/${{ matrix.target }}/debug/at
+          files: at-${{ matrix.target }}.tar.gz
   
