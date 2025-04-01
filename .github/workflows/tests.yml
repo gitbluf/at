@@ -20,23 +20,17 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         rust-version: [stable, beta]
         include:
-          - os: ubuntu-latest
-            rust-version: stable
+          - rust-version: stable
             target: x86_64-unknown-linux-gnu
-          - os: ubuntu-latest
-            rust-version: stable
+          - rust-version: stable
             target: aarch64-unknown-linux-gnu
-          - os: windows-latest
-            rust-version: stable
+          - rust-version: stable
             target: x86_64-pc-windows-msvc
-          - os: windows-latest
-            rust-version: stable
+          - rust-version: stable
             target: aarch64-pc-windows-msvc
-          - os: macos-latest
-            rust-version: stable
+          - rust-version: stable
             target: x86_64-apple-darwin
-          - os: macos-latest
-            rust-version: stable
+          - rust-version: stable
             target: aarch64-apple-darwin
     steps:
     - uses: actions/checkout@v2
