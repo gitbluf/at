@@ -42,8 +42,8 @@ jobs:
       - name: Install Dependencies
         run: |
           if [[ ${{ matrix.os }} == 'ubuntu-latest' ]]; then
-              sudo apt-get update;
-              sudo apt-get install -y gcc-${{ matrix.arch }}-linux-gnu;
+              sudo apt-get update -y;
+              sudo apt-get install -y build-essential;
           elif [[ ${{ matrix.os }} == 'macos-latest' ]]; then
               brew install gcc;
           fi
