@@ -39,6 +39,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: Checkout code
+      - name: Install Dependencies
+        run: |
+          if [[ ${{ matrix.os }} == 'ubuntu-latest' ]]; then
+              sudo apt-get update;
+              sudo apt-get install -y gcc-${{ matrix.arch }}-linux-gnu;
+          elif [[ ${{ matrix.os }} == 'macos-latest' ]]; then
+              brew install gcc;
+          fi
       - name: Set up Rust
         uses: actions-rs/toolchain@v1
         with:
