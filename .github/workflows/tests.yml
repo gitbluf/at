@@ -24,12 +24,6 @@ jobs:
           - os: ubuntu-latest
             rust-version: stable
             target: aarch64-unknown-linux-gnu
-          - os: windows-latest
-            rust-version: stable
-            target: x86_64-pc-windows-msvc
-          - os: windows-latest
-            rust-version: stable
-            target: aarch64-pc-windows-msvc
           - os: macos-latest
             rust-version: stable
             target: x86_64-apple-darwin
@@ -39,9 +33,6 @@ jobs:
           - os: ubuntu-latest 
             rust-version: beta
             target: x86_64-unknown-linux-gnu
-          - os: windows-latest 
-            rust-version: beta
-            target: x86_64-pc-windows-msvc
           - os: macos-latest 
             rust-version: beta
             target: x86_64-apple-darwin
@@ -53,7 +44,6 @@ jobs:
         with:
           toolchain: ${{ matrix.rust-version }}
           target: ${{ matrix.target }}
-          profile: minimal
           override: true
       - name: Build
         uses: actions-rs/cargo@v1
