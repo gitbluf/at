@@ -61,5 +61,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: target/${{ matrix.target }}/release/at
+          files: target/${{ matrix.target }}/debug/at
   
