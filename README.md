@@ -1,4 +1,5 @@
 # Any Terra (AT)
+[![tests](https://github.com/gitbluf/at/actions/workflows/tests.yml/badge.svg)](https://github.com/gitbluf/at/actions)
 
 Any Terra (AT) is a simple CLI tool that ensures you always run the correct version of Terraform, and soon OpenTofu, based on the `required_version` specified in your Terraform configuration file. 
 This tool is inspired by [anyzig](https://github.com/marler8997/anyzig).
