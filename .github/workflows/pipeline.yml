@@ -2,12 +2,17 @@
 name: Test
 on:
   push:
+    tags:
+      - '*'
     branches:
       - main
   pull_request:
     branches:
       - main
 
+permissions:
+  contents: write
+  discussions: write
 env:
   CARGO_TERM_COLOR: always
 
@@ -52,4 +57,9 @@ jobs:
         with:
           command: test
           args: --target ${{ matrix.target }}
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: target/${{ matrix.target }}/release/at
   
