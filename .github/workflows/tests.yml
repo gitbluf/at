@@ -8,11 +8,14 @@ on:
     branches:
       - main
 
+env: 
+  CARGO_TERM_COLOR: always
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         rust-version: [stable, beta]
@@ -35,7 +38,6 @@ jobs:
           - os: macos-latest
             rust-version: stable
             target: aarch64-apple-darwin
-    
     steps:
     - uses: actions/checkout@v2
       name: Checkout code
@@ -43,7 +45,7 @@ jobs:
     - name: Set up Rust
       uses: actions-rs/toolchain@v1
       with:
-        rust-version: ${{ matrix.rust-version }}
+        toolchain: ${{ matrix.rust-version }}
         target: ${{ matrix.target }}
         profile: minimal
         override: true
