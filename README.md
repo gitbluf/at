@@ -13,8 +13,7 @@ This tool is inspired by [anyzig](https://github.com/marler8997/anyzig).
 - Introduction of support for OpenTofu with similar functionality, ensuring compatibility and ease of use across different infrastructure management tools.
 
 ## Installation
-To install Any Terra, visit [releases](https://github.com/github/at) and choose the download link or installation instructions that correspond to your operating system and architecture.
-Alternatively, you can manually download and extract the appropriate archive from our [Releases page](https://github.com/gitbluf/at/releases).
+To install Any Terra, visit [releases page](https://github.com/gitbluf/at/releases).
 
 ## Example Usage
 ```bash
