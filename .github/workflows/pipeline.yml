@@ -35,12 +35,19 @@ jobs:
         name: Checkout code
       - name: Install Dependencies
         run: |
-          if [[ ${{ matrix.os }} == 'ubuntu-latest' ]]; then
-              sudo apt-get update -y;
-              sudo apt-get install -y build-essential gcc-multilib;
-          elif [[ ${{ matrix.os }} == 'macos-latest' ]]; then
-              brew install gcc;
-          fi
+            case "${{ matrix.os }}" in
+            "ubuntu-latest")
+              sudo apt-get update -y
+              sudo apt-get install -y build-essential gcc-multilib
+            ;;
+            "macos-latest")
+              brew install gcc
+            ;;
+            *)
+              echo "Unsupported OS: ${{ matrix.os }}"
+              exit 1
+            ;;
+            esac
       - name: Set up Rust
         uses: actions-rs/toolchain@v1
         with:

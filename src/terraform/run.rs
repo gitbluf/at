@@ -1,6 +1,11 @@
-use std::fmt;
-use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::{
+    fmt,
+    io::{BufRead, BufReader},
+    path::{Path, PathBuf},
+    process::{Command, Stdio},
+    sync::mpsc,
+    thread,
+};
 
 #[derive(Debug)]
 pub enum TerraError {
@@ -16,7 +21,7 @@ impl fmt::Display for TerraError {
                 write!(f, "Invalid Terraform path: {}", path.display())
             }
             TerraError::CommandFailed(output) => {
-                write!(f, "Command failed with output:\n{}", output)
+                write!(f, "{}", output)
             }
             TerraError::InvalidArgs => write!(f, "No arguments provided"),
         }
@@ -46,43 +51,51 @@ impl TerraExecutor {
             return Err(TerraError::InvalidArgs);
         }
 
-        let mut cmd = Command::new(&self.terra_path);
+        let mut cmd = Command::new(&self.terra_path)
+            .args(args)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .unwrap();
 
-        for arg in args {
-            cmd.arg(arg);
+        let stdout = cmd.stdout.take().expect("failed to open stdout");
+        let stderr = cmd.stderr.take().expect("failed to open stderr");
+        let (tx, rx) = mpsc::channel();
+
+        let tx_clone = tx.clone();
+
+        thread::spawn(move || {
+            let reader = BufReader::new(stdout);
+            for line in reader.lines() {
+                let line = line.unwrap_or_default();
+                tx_clone.send(format!("{}", line)).unwrap();
+            }
+        });
+
+        thread::spawn(move || {
+            let reader = BufReader::new(stderr);
+            for line in reader.lines() {
+                let line = line.unwrap_or_default();
+                tx.send(format!("{}", line)).unwrap();
+            }
+        });
+
+        let mut output = String::new();
+        for line in rx {
+            println!("{}", line);
+            output.push_str(&line);
+            output.push('\n');
         }
 
-        let output = cmd
-            .output()
-            .map_err(|e| TerraError::CommandFailed(format!("Failed to execute command: {}", e)))?;
+        let status = cmd
+            .wait()
+            .map_err(|e| TerraError::CommandFailed(e.to_string()))?;
 
-        let stdout = match String::from_utf8(output.stdout) {
-            Ok(text) => text,
-            Err(e) => {
-                return Err(TerraError::CommandFailed(format!(
-                    "Invalid UTF-8 sequence: {}",
-                    e
-                )))
-            }
-        };
-
-        let stderr = match String::from_utf8(output.stderr) {
-            Ok(text) => text,
-            Err(e) => {
-                return Err(TerraError::CommandFailed(format!(
-                    "Invalid UTF-8 sequence: {}",
-                    e
-                )))
-            }
-        };
-
-        if !output.status.success() {
-            let command_error = format!("{} {}", stdout.to_string(), stderr.to_string());
-            println!("{}", command_error);
-            return Err(TerraError::CommandFailed(command_error));
+        if !status.success() {
+            return Err(TerraError::CommandFailed(output));
         }
 
-        Ok(stdout.to_string())
+        Ok(output)
     }
 }
 
