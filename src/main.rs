@@ -1,9 +1,7 @@
 mod terraform;
 
 use std::error::Error;
-use terraform::install::install;
-use terraform::run;
-use terraform::version::find_required_version;
+use terraform::{install::install, run, version::find_required_version};
 
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<String> = std::env::args().skip(1).collect();
