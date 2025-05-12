@@ -10,7 +10,7 @@ hcl-rs = "0.18.4"
 regex = "1.11.1"
 reqwest = { version = "0.12.15", features = ["blocking", "json"]}
 serde = "1.0.219"
-tempfile = "3.19.1"
+tempfile = "3.20.0"
 zip = "2.5.0"
 openssl = { version = "0.10.72", features = ["vendored"] } 
 
