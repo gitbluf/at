@@ -488,21 +488,22 @@ checksum = "bf151400ff0baff5465007dd2f3e717f3fe502074ca563069ce3a6629d07b289"
 
 [[package]]
 name = "hcl-edit"
-version = "0.8.7"
+version = "0.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "17a75304a03faac0026c4ed92abbbff4c6fa05ea9e840d9496cd2d3766d8c9e5"
+checksum = "3ab35d988dc879e293759e29b430a4ba9e6125965eec6fd0dfab0cb349e172d7"
 dependencies = [
  "fnv",
  "hcl-primitives",
+ "pratt",
  "vecmap-rs",
  "winnow",
 ]
 
 [[package]]
 name = "hcl-primitives"
-version = "0.1.9"
+version = "0.1.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f097693bfc799cc5043956e93a28c51ca4e72f2c3daa21f65a5b0a28510df1f2"
+checksum = "829a11d304c89e2cfe0dbb494a686bbe2b48ade17705c62cd1957b04aa4630f6"
 dependencies = [
  "itoa",
  "kstring",
@@ -513,9 +514,9 @@ dependencies = [
 
 [[package]]
 name = "hcl-rs"
-version = "0.18.6"
+version = "0.19.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0d6918c10bdefbc8e2fedd901c7d002cd7f83e4a2232d16567542ab712820109"
+checksum = "5914e8caacb6e224944a8181bebd79bf81ad4999a36689f0a3158e555b49040d"
 dependencies = [
  "hcl-edit",
  "hcl-primitives",
@@ -1103,6 +1104,12 @@ name = "ppmd-rust"
 version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c834641d8ad1b348c9ee86dec3b9840d805acd5f24daa5f90c788951a52ff59b"
+
+[[package]]
+name = "pratt"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "17e0a4425d076f0718b820673a38fbf3747080c61017eeb0dd79bc7e472b8bb8"
 
 [[package]]
 name = "proc-macro2"
